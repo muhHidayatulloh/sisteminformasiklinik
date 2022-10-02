@@ -16,7 +16,5 @@ password :petugas
 Screenshot Aplikasi
 #################
 
-![image.png]( {} )
-#� �s�i�s�t�e�m�i�n�f�o�r�m�a�s�i�k�l�i�n�i�k�
-�
-�
+https://github.com/muhHidayatulloh/sisteminformasiklinik/blob/main/screenshoots/Screenshot%20(177).png
+
