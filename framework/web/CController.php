@@ -242,25 +242,25 @@ class CController extends CBaseController
 	 */
 	public function accessRules()
 	{
-		$app = Yii::app();
-		// var_dump(Yii::app()->user->id);die;
-		if($app->user->id != null) {
-			$menu = $app->controller->id;
-			$id_menu = $app->db->createCommand("SELECT id_menu FROM menu where nama_menu = '$menu'")->queryRow()['id_menu'];
-			// var_dump($id_menu);die;	
-			$id_role = $app->user->id_role;
+		// $app = Yii::app();
+		// // var_dump(Yii::app()->user->id);die;
+		// if($app->user->id != null) {
+		// 	$menu = $app->controller->id;
+		// 	$id_menu = $app->db->createCommand("SELECT id_menu FROM menu where nama_menu = '$menu'")->queryRow()['id_menu'];
+		// 	// var_dump($id_menu);die;	
+		// 	$id_role = $app->user->id_role;
 			
-			$access = $app->db->createCommand("SELECT * FROM user_access_menu where id_role = $id_role and id_menu = $id_menu")->queryRow();
-			// var_dump($app->user->id_role);die;
-			// var_dump($access);
+		// 	$access = $app->db->createCommand("SELECT * FROM user_access_menu where id_role = $id_role and id_menu = $id_menu")->queryRow();
+		// 	// var_dump($app->user->id_role);die;
+		// 	// var_dump($access);
 	
-			if(!$access) {
-				$this->redirect(Yii::app()->request->baseUrl.'/site/block');
-			}
-		} else {
-			$app->user->setFlash('message','Untuk mengakses menu silahkan login terlebih dahulu');
-			$this->redirect(Yii::app()->request->baseUrl.'/site/login');
-		}
+		// 	if(!$access) {
+		// 		$this->redirect(Yii::app()->request->baseUrl.'/site/block');
+		// 	}
+		// } else {
+		// 	$app->user->setFlash('message','Untuk mengakses menu silahkan login terlebih dahulu');
+		// 	$this->redirect(Yii::app()->request->baseUrl.'/site/login');
+		// }
 		
 		
 

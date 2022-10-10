@@ -4,9 +4,8 @@ class EWebUser extends CWebUser
  private $_userTable = array
  (
    0=>'Member',
-   1=>'Moderator',
-   8=>'Admin',
-   9=>'Owner'
+   1=>'petugas',
+   8=>'Admin'
  );
  
  protected $_model;
@@ -18,10 +17,10 @@ function isAdmin()
    return (Yii::app()->user->isGuest) ? FALSE : $this->level == 8;
  }
  
- public function isSuperadmin()
+ public function isPetugas()
  {
- //Access this via Yii::app()->user->isSuperadmin()
-   return (Yii::app()->user->isGuest) ? FALSE : $this->level == 9;
+ //Access this via Yii::app()->user->isPetugas()
+   return (Yii::app()->user->isGuest) ? FALSE : $this->level == 1;
  }
  
  public function canAccess($minimumLevel)

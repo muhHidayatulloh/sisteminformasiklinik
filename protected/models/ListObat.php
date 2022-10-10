@@ -26,11 +26,11 @@ class ListObat extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_pasien, id_obat', 'required'),
-			array('id_pasien, id_obat', 'numerical', 'integerOnly'=>true),
+			array('id_pasien', 'required'),
+			array('id_pasien', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_list_obat, id_pasien, id_obat', 'safe', 'on'=>'search'),
+			array('id_list_obat, id_pasien', 'safe', 'on'=>'search'),
 		);
 	}
 

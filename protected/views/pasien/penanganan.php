@@ -31,9 +31,13 @@ $this->breadcrumbs=array(
         </div>
 	</div>
 
+
 	<div class="row">
-		<?php echo $form->labelEx($model,'Tindakan'); ?>
-		<?php echo $form->dropDownList($model,'id_tindakan', $dataTindakan , array('empty' => 'Pilih')); ?>
+		<?php echo $form->labelEx($model,'Pilih Tindakan'); ?>
+		<div class="form-check">
+			<?php echo $form->checkBoxList($modelListTindakan,'id_tindakan', $dataTindakan , array('class' => 'form-check-input')); ?>
+			<?php echo $form->error($model,'id_tindakan'); ?>
+		</div>
 	</div>
 
 	<div class="row buttons">

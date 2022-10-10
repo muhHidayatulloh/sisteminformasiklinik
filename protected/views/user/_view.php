@@ -17,8 +17,8 @@
 	<?php echo CHtml::encode($data->username); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('Role')); ?>:</b>
-	<?php echo CHtml::encode($data->role->role); ?>
+	<b><?php echo CHtml::encode($data->getAttributeLabel('level')); ?>:</b>
+	<?php echo Yii::app()->user->getUserLabel($data->level); ?>
 	<br />
 
 

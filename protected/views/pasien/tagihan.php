@@ -7,7 +7,8 @@ $this->breadcrumbs=array(
 
 $data_obat = Yii::app()->db->createCommand("SELECT * FROM list_obat JOIN obat ON list_obat.id_obat = obat.id_obat where id_pasien = $model->id_pasien")->queryAll();
 
-$tindakan = Yii::app()->db->createCommand("SELECT biaya, tindakan FROM pasien JOIN tindakan ON pasien.id_tindakan = tindakan.id_tindakan where id_pasien = $model->id_pasien")->queryRow();
+$data_tindakan = Yii::app()->db->createCommand("SELECT * FROM list_tindakan JOIN tindakan ON list_tindakan.id_tindakan = tindakan.id_tindakan where id_pasien = $model->id_pasien")->queryAll();
+
 
 // var_dump($biaya_tindakan);
 ?>
@@ -26,18 +27,21 @@ $tindakan = Yii::app()->db->createCommand("SELECT biaya, tindakan FROM pasien JO
             <li><?= $key['nama_obat']; ?> = <?= $key['harga']; ?></li>
         <?php endforeach; ?>
     </ul>
-    Total Obat : <?php echo $totaltagihan['total']; ?>
+    Total Obat : <?php echo $totalObat['total']; ?>
 </div>
 
 <div class="view">
-    <h5>Rincian Tindakan</h5>
-    Tindakan : <?php echo $tindakan['tindakan'] ?>
-    <br>
-    Biaya : <?php echo $tindakan['biaya']; ?>
+    <h5>Rincian Obat</h5>
+    <ul>
+        <?php foreach($data_tindakan as $key) : ?>
+            <li><?= $key['tindakan']; ?> = <?= $key['biaya']; ?></li>
+        <?php endforeach; ?>
+    </ul>
+    Biaya : <?php echo $totalTindakan['total_biaya']; ?>
 </div>
 
 <div class="view">
-    <h1>Total Bayar : <?php echo $totaltagihan['total'] + $tindakan['biaya']; ?></h1> 
+    <h1>Total Bayar : <?php echo $totalObat['total'] + $totalTindakan['total_biaya']; ?></h1> 
 </div>
 
 

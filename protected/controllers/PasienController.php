@@ -24,34 +24,34 @@ class PasienController extends Controller
 	 * This method is used by the 'accessControl' filter.
 	 * @return array access control rules
 	 */
-	// public function accessRules()
-	// {
-	// 	return array(
-	// 		array('allow',  // allow all users to perform 'index' and 'view' actions
-	// 			'actions'=>array('index','view'),
-	// 			'users'=>array('*'),
-	// 		),
-	// 		array('allow', // allow authenticated user to perform 'create' and 'update' actions
-	// 			'actions'=>array('create','update'),
-	// 			'users'=>array('@'),
-	// 		),
-	// 		array('allow', // allow admin user to perform 'admin' and 'delete' actions
-	// 			'actions'=>array('admin','delete'),
-	// 			'users'=>array('admin'),
-	// 		),
-	// 		array('deny',  // deny all users
-	// 			'users'=>array('*'),
-	// 		),
-	// 	);
-	// }
+	public function accessRules()
+	{
+		return array(
+			
+			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array('index','view'),
+				'users' =>array('@')
+			),
+			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array('create','update', 'admin', 'delete', 'tagihan', 'penanganan'),
+				'expression'=> "Yii::app()->user->isPetugas()",
+			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
+		);
+	}
 
 	public function actionTagihan($id)
 	{
-		$model = Yii::app()->db->createCommand("SELECT SUM(harga) as total FROM list_obat JOIN obat ON list_obat.id_obat = obat.id_obat where id_pasien = '$id'")->queryRow();
+		$total = Yii::app()->db->createCommand("SELECT SUM(harga) as total FROM list_obat JOIN obat ON list_obat.id_obat = obat.id_obat where id_pasien = '$id'")->queryRow();
+
+		$biaya = Yii::app()->db->createCommand("SELECT SUM(biaya) as total_biaya FROM list_tindakan JOIN tindakan ON list_tindakan.id_tindakan = tindakan.id_tindakan where id_pasien = '$id'")->queryRow();
 
 		// var_dump($model);die;
 		$this->render('tagihan', [
-			'totaltagihan' => $model,
+			'totalObat' => $total,
+			'totalTindakan'=>$biaya,
 			'model' => $this->loadModel($id)
 		]);
 	}
@@ -61,22 +61,28 @@ class PasienController extends Controller
 		
 		if(isset($_POST['Pasien']))
 		{
-			$id_tindakan = $_POST['Pasien']['id_tindakan'];
+			// var_dump($_POST);die;
+			$id_tindakan = $_POST['ListTindakan']['id_tindakan'];
 			$id_pasien = $_POST['Pasien']['id_pasien'];
-			// var_dump($id_tindakan);
 			// die;
-			$model = Yii::app()->db->createCommand("UPDATE pasien set id_tindakan = $id_tindakan where id_pasien = $id_pasien")->execute();
-			// $model->attributes=$_POST['Pasien'];
-			// var_dump($model->save());
-			// var_dump($model);die;
+			for($i = 0; $i < count($id_tindakan); $i++) {
+				$model = Yii::app()->db->createCommand("INSERT INTO list_tindakan VALUES(null, $id_pasien, $id_tindakan[$i])")->execute();
+			}
+
 			if($model > 0) {
 				$this->redirect(Yii::app()->request->baseUrl.'/pasien/index');
 			}
+			// $model = Yii::app()->db->createCommand("UPDATE pasien set id_tindakan = $id_tindakan where id_pasien = $id_pasien")->execute();
+			// // $model->attributes=$_POST['Pasien'];
+			// // var_dump($model->save());
+			// // var_dump($model);die;
+			
 		}
 
 		$tindakan = Tindakan::model()->findAll();
 		$this->render('penanganan', [
 			'model' => $this->loadModel($id),
+			'modelListTindakan'=> new ListTindakan,
 			'dataTindakan' => CHtml::listData($tindakan , 'id_tindakan' , 'tindakan')
 		]);
 	}
@@ -186,7 +192,7 @@ class PasienController extends Controller
 		$dataProvider=new CActiveDataProvider('Pasien');
 		// var_dump($dataProvider->data);die;
 		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
+			'dataProvider'=>$dataProvider
 		));
 	}
 

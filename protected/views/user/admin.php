@@ -48,11 +48,6 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'nama',
 		'username',
 		array(
-			'name' => 'id_role',
-			'value' => '$data->role->role',
-			'filter' => $this->dataRole()
-		),
-		array(
 			'class'=>'CButtonColumn',
 		),
 	),

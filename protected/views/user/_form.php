@@ -44,10 +44,11 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'id_role'); ?>
-		<?php echo $form->dropDownList($model,'id_role', $dataRole , array('empty' => 'Pilih')); ?>
-		<?php echo $form->error($model,'id_role'); ?>
+		<?php echo $form->labelEx($model,'level'); ?>
+		<?php echo $form->dropDownList($model,'level', Yii::app()->user->getUserLevelsList(), array('empty'=>'-- Pilih Level --')); ?>
+		<?php echo $form->error($model,'level'); ?>
 	</div>
+
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>

@@ -66,17 +66,6 @@
 						</ul>
 					</li>
 
-					<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								Admin Management
-							</a>
-						<ul class="dropdown-menu bg-secondary">
-							<li><a class="dropdown-item" href="<?php echo Yii::app()->request->baseUrl; ?>/menu">Menu</a></li>
-							<li><a class="dropdown-item" href="<?php echo Yii::app()->request->baseUrl; ?>/role">Role</a></li>
-							<li><a class="dropdown-item" href="<?php echo Yii::app()->request->baseUrl; ?>/useraccessmenu">User Access</a></li>
-						</ul>
-					</li>
-
 					<li class="nav-item">
 						<a class="nav-link active" aria-current="page" href="<?php echo Yii::app()->request->baseUrl; ?>/admin/laporan">Laporan</a>
 					</li>

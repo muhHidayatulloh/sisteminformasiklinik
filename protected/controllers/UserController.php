@@ -24,21 +24,20 @@ class UserController extends Controller
 	 * This method is used by the 'accessControl' filter.
 	 * @return array access control rules
 	 */
-	// public function accessRules()
-	// {
-	// 	// $role = Yii::app()->user->id_role;
-	// 	// var_dump($role);die;
-	// 	return array(
-	// 		array('allow',  // allow all users to perform 'index' and 'view' actions
-	// 			'actions'=>array('user'),
-	// 			'users'=>array('@'),
-	// 		),
+	public function accessRules()
+	{
+		// $role = Yii::app()->user->id_role;
+		// var_dump($role);die;
+		return array(
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'users'=>array('@'),
+			),
 			
-	// 		array('deny',  // deny all users
-	// 			'users'=>array('*'),
-	// 		),
-	// 	);
-	// }
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
+		);
+	}
 
 	/**
 	 * Displays a particular model.
@@ -74,9 +73,10 @@ class UserController extends Controller
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
+		
 		if(isset($_POST['User']))
 		{
+			// var_dump($_POST);die;
 			$model->attributes=$_POST['User'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id_user));

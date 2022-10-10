@@ -5,7 +5,9 @@
 
 $data_obat = Yii::app()->db->createCommand("SELECT * FROM list_obat JOIN obat ON list_obat.id_obat = obat.id_obat where id_pasien = $data->id_pasien")->queryAll();
 
-// var_dump($data_obat);
+$data_tindakan = Yii::app()->db->createCommand("SELECT * FROM list_tindakan JOIN tindakan ON list_tindakan.id_tindakan = tindakan.id_tindakan where id_pasien = $data->id_pasien")->queryAll();
+
+// var_dump($data);
 ?>
 
 <div class="view">
@@ -19,8 +21,15 @@ $data_obat = Yii::app()->db->createCommand("SELECT * FROM list_obat JOIN obat ON
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('Tindakan')); ?>:</b>
-	<?php echo CHtml::encode($data->tindakan->tindakan); ?>
+	<div class="view">
+		<ul>
+			<?php foreach($data_tindakan as $key) : ?>
+				<li><?= $key['tindakan']; ?></li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
 	<br />
+
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('List Obat')); ?>:</b>
 	<?php echo CHtml::link(CHtml::encode('BeriObat'), array('listobat/create', 'id'=>$data->id_pasien)); ?>

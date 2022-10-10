@@ -16,13 +16,17 @@ $this->menu=array(
 );
 ?>
 
-<h1>View User #<?php echo $model->id_user; ?></h1>
+<h1>View User #<?php echo $model->nama; ?></h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,
 	'attributes'=>array(
 		'id_user',
 		'nama',
-		'username'
+		'username',
+		array(               // related city displayed as a link
+            'label'=>'Level',
+            'value'=> Yii::app()->user->getUserLabel($model->level)
+        ),
 	),
 )); ?>

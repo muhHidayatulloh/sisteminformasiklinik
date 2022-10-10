@@ -26,18 +26,16 @@ class ListObatController extends Controller
 	 */
 	public function accessRules()
 	{
+		// var_dump(Yii::app()->user->isPetugas());die;
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			
+			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('index','view'),
-				'users'=>array('*'),
+				'users' =>array('@')
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
-			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
-				'users'=>array('admin'),
+				'actions'=>array('create','update', 'admin', 'delete'),
+				'expression'=> "Yii::app()->user->isPetugas()",
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -51,6 +49,7 @@ class ListObatController extends Controller
 	 */
 	public function actionView($id)
 	{
+		
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
 		));
@@ -78,35 +77,36 @@ class ListObatController extends Controller
 	public function actionCreate($id)
 	{
 		$model=new ListObat;
+		// var_dump($this->loadModelObat($id));
+		// var_dump();
 		$dataPasien = $this->loadModelPasien($id);
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['ListObat']))
 		{
-			// $model->attributes=$_POST['ListObat'];
 			// var_dump($_POST);die;
-			// if($model->save())
-			// 	$this->redirect(array('view','id'=>$model->id_list_obat));
-			// $id_tindakan = $_POST['Pasien']['id_tindakan'];
 			$id_pasien = $_POST['Pasien']['id_pasien'];
-			$id_obat = $_POST['ListObat']['id_obat'];
-			// var_dump($id_tindakan);
-			// die;
-			$model = Yii::app()->db->createCommand("INSERT INTO list_obat VALUES(null, $id_pasien, $id_obat)")->execute();
-			// $model->attributes=$_POST['Pasien'];
-			// var_dump($model->save());
-			// var_dump($model);die;
+			$dataObat = $_POST['ListObat']['id_obat'];
+
+			// var_dump(count($dataObat));
+
+			for($i = 0; $i < count($dataObat); $i++) {
+				$model = Yii::app()->db->createCommand("INSERT INTO list_obat VALUES(null, $id_pasien, $dataObat[$i])")->execute();
+			}
+
 			if($model > 0) {
 				$this->redirect(Yii::app()->request->baseUrl.'/pasien/index');
 			}
 		}
 
+		// $obat = Yii::app()->db->createCommand("SELECT * FROM obat")->queryAll();
+
+		$obat = Obat::model()->findAll();
+
+		// var_dump(CHtml::listData($obat, 'id_obat', 'nama_obat'));
 		$this->render('create',array(
 			'model'=>$model,
-			'dataObat' => $this->dataObat(),
-			'dataPasien' => $dataPasien
+			'dataObat' => CHtml::listData($obat, 'id_obat', 'nama_obat'),
+			'dataPasien' => $dataPasien,
 		));
 	}
 
@@ -187,6 +187,15 @@ class ListObatController extends Controller
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
+	}
+
+	public function loadModelObat($id)
+	{
+		$model=ListObat::model()->findAllByAttributes(['id_pasien'=>$id]);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+		
 	}
 	public function loadModelPasien($id)
 	{

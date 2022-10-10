@@ -12,6 +12,21 @@ class AdminController extends Controller
 			'postOnly + delete', // we only allow deletion via POST request
 		);
 	}
+
+	public function accessRules()
+	{
+		return array(
+			
+			
+			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array('index','laporan'),
+				'expression'=> "Yii::app()->user->isAdmin()",
+			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
+		);
+	}
 	
 	public function actionIndex()
 	{

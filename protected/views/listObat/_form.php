@@ -26,11 +26,14 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'Obat'); ?>
-		<?php echo $form->dropDownList($model,'id_obat', $dataObat , array('empty' => 'Pilih')); ?>
-		<?php echo $form->error($model,'id_obat'); ?>
+		<?php echo $form->labelEx($model,'Pilih Obat'); ?>
+		<div class="form-check">
+			<?php echo $form->checkBoxList($model,'id_obat', $dataObat , array('class' => 'form-check-input')); ?>
+			<?php echo $form->error($model,'id_obat'); ?>
+		</div>
 	</div>
 
+</div>
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
 	</div>

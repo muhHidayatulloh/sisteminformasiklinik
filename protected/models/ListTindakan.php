@@ -1,25 +1,21 @@
 <?php
 
 /**
- * This is the model class for table "user".
+ * This is the model class for table "list_tindakan".
  *
- * The followings are the available columns in table 'user':
- * @property integer $id_user
- * @property string $nama
- * @property string $username
- * @property string $password
- * @property integer $id_role
+ * The followings are the available columns in table 'list_tindakan':
+ * @property integer $id_list_tindakan
+ * @property integer $id_pasien
+ * @property integer $id_tindakan
  */
-class User extends CActiveRecord
+class ListTindakan extends CActiveRecord
 {
-	public $verifikasi_password;
-
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'user';
+		return 'list_tindakan';
 	}
 
 	/**
@@ -30,25 +26,13 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nama, username, password, level', 'required'),
-			array('nama, username', 'length', 'max'=>32),
-			array('password', 'length', 'max'=>255),
-			array('verifikasi_password' , 'compare' , 'compareAttribute' => 'password'),
+			array('id_pasien, id_tindakan', 'required'),
+			array('id_pasien, id_tindakan', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_user, nama, username, password, level', 'safe', 'on'=>'search'),
+			array('id_list_tindakan, id_pasien, id_tindakan', 'safe', 'on'=>'search'),
 		);
 	}
-
-	// sebelum save enkripsi password terlebih dahulu
-	public function beforeSave()
-	 {
-		if(parent::beforeSave())
-		{
-			$this->password = CPasswordHelper::hashPassword($this->password);
-			return true;
-		}
-	 }
 
 	/**
 	 * @return array relational rules.
@@ -58,7 +42,6 @@ class User extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			
 		);
 	}
 
@@ -68,12 +51,9 @@ class User extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id_user' => 'Id User',
-			'nama' => 'Nama',
-			'username' => 'Username',
-			'password' => 'Password',
-			'level' => 'Level',
-			
+			'id_list_tindakan' => 'Id List Tindakan',
+			'id_pasien' => 'Id Pasien',
+			'id_tindakan' => 'Id Tindakan',
 		);
 	}
 
@@ -95,11 +75,10 @@ class User extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id_user',$this->id_user);
-		$criteria->compare('nama',$this->nama,true);
-		$criteria->compare('username',$this->username,true);
-		$criteria->compare('password',$this->password,true);
-		$criteria->compare('level',$this->level,true);
+		$criteria->compare('id_list_tindakan',$this->id_list_tindakan);
+		$criteria->compare('id_pasien',$this->id_pasien);
+		$criteria->compare('id_tindakan',$this->id_tindakan);
+
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
@@ -109,7 +88,7 @@ class User extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return User the static model class
+	 * @return ListTindakan the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
